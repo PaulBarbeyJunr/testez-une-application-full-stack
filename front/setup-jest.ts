@@ -26,5 +26,16 @@ Object.defineProperty(document.body.style, 'transform', {
   },
 });
 
+/* Mock element.animate for Angular Material components in Jest/jsdom */
+Object.defineProperty(window.Element.prototype, 'animate', {
+  value: () => ({
+    onfinish: null,
+    cancel: () => {},
+    play: () => {},
+    pause: () => {},
+  }),
+  writable: true,
+});
+
 /* output shorter and more meaningful Zone error stack traces */
 // Error.stackTraceLimit = 2;
