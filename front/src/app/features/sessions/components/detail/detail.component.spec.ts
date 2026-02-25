@@ -5,8 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 import { expect } from '@jest/globals';
 import { of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { SessionService } from '../../../../services/session.service';
 import { SessionApiService } from '../../services/session-api.service';
@@ -21,6 +23,7 @@ describe('DetailComponent', () => {
   let fixture: ComponentFixture<DetailComponent>;
   let sessionApiService: SessionApiService;
   let teacherService: TeacherService;
+  let matSnackBar: MatSnackBar;
 
   const mockSession: Session = {
     id: 1,
@@ -62,6 +65,7 @@ describe('DetailComponent', () => {
       declarations: [DetailComponent],
       providers: [
         { provide: SessionService, useValue: sessionServiceMock },
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => '1' } } } },
         SessionApiService,
         TeacherService
       ]
@@ -69,6 +73,7 @@ describe('DetailComponent', () => {
 
     sessionApiService = TestBed.inject(SessionApiService);
     teacherService = TestBed.inject(TeacherService);
+    matSnackBar = TestBed.inject(MatSnackBar);
 
     jest.spyOn(sessionApiService, 'detail').mockReturnValue(of(mockSession));
     jest.spyOn(teacherService, 'detail').mockReturnValue(of(mockTeacher));
@@ -121,6 +126,32 @@ describe('DetailComponent', () => {
 
     it('should set isAdmin to true', () => {
       expect(component.isAdmin).toBe(true);
+    });
+
+    it('should call sessionApiService.delete on delete', () => {
+      jest.spyOn(sessionApiService, 'delete').mockReturnValue(of({}));
+      jest.spyOn(matSnackBar, 'open');
+
+      component.delete();
+
+      expect(sessionApiService.delete).toHaveBeenCalledWith('1');
+      expect(matSnackBar.open).toHaveBeenCalledWith('Session deleted !', 'Close', { duration: 3000 });
+    });
+
+    it('should call participate and refresh session', () => {
+      jest.spyOn(sessionApiService, 'participate').mockReturnValue(of(undefined));
+
+      component.participate();
+
+      expect(sessionApiService.participate).toHaveBeenCalledWith('1', '1');
+    });
+
+    it('should call unParticipate and refresh session', () => {
+      jest.spyOn(sessionApiService, 'unParticipate').mockReturnValue(of(undefined));
+
+      component.unParticipate();
+
+      expect(sessionApiService.unParticipate).toHaveBeenCalledWith('1', '1');
     });
   });
 
