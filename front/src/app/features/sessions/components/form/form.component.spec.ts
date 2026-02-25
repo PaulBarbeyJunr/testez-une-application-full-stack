@@ -153,6 +153,29 @@ describe('FormComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['/sessions']);
       mockSessionService.sessionInformation.admin = true;
     });
+
+    it('should disable Save button when form is invalid', () => {
+      fixture.detectChanges();
+      const saveButton = fixture.nativeElement.querySelector('button[type="submit"]');
+      expect(saveButton.disabled).toBe(true);
+    });
+
+    it('should enable Save button when form is valid', () => {
+      component.sessionForm?.setValue({
+        name: 'Morning Yoga',
+        date: '2024-01-15',
+        teacher_id: 1,
+        description: 'A relaxing session'
+      });
+      fixture.detectChanges();
+      const saveButton = fixture.nativeElement.querySelector('button[type="submit"]');
+      expect(saveButton.disabled).toBe(false);
+    });
+
+    it('should display Create session title in create mode', () => {
+      const title = fixture.nativeElement.querySelector('h1');
+      expect(title.textContent).toContain('Create session');
+    });
   });
 
   describe('update mode', () => {
@@ -229,6 +252,11 @@ describe('FormComponent', () => {
 
     it('should have valid form with pre-filled data', () => {
       expect(component.sessionForm?.valid).toBe(true);
+    });
+
+    it('should display Update session title in update mode', () => {
+      const title = fixture.nativeElement.querySelector('h1');
+      expect(title.textContent).toContain('Update session');
     });
   });
 });
