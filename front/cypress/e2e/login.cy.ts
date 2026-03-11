@@ -24,4 +24,20 @@ describe('Login spec', () => {
 
     cy.url().should('include', '/sessions')
   })
+
+  it('Login failed', () => {
+    cy.visit('/login')
+
+    cy.intercept('POST', '/api/auth/login', {
+      statusCode: 401,
+      body: { message: 'Invalid credentials' }
+    })
+
+    cy.get('input[formControlName=email]').type("wrong@email.com")
+    cy.get('input[formControlName=password]').type("wrongpassword")
+    cy.get('button[type=submit]').click()
+
+    cy.get('.error').should('be.visible').and('contain', 'An error occurred')
+    cy.url().should('include', '/login')
+  })
 });

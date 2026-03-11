@@ -1,9 +1,25 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "projects/**/*",
+    "cypress/**/*"
   ],
   "overrides": [
+    {
+      "files": [
+        "cypress/**/*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "cypress/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended"
+      ],
+      "rules": {}
+    },
     {
       "files": [
         "*.ts"
