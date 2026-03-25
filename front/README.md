@@ -1,74 +1,92 @@
-# Yoga
+# Yoga App - Front-end
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+Application Angular 14 de gestion de sessions de yoga.
 
-## Start the project
+## Prérequis
 
-Git clone:
+- **Node.js 16+** et **npm**
+- **Angular CLI** : `npm install -g @angular/cli`
+- Le **back-end** doit être démarré sur `http://localhost:8080` pour les tests e2e
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+---
 
-Go inside folder:
+## Installation
 
-> cd yoga
+```bash
+npm install
+```
 
-Install dependencies:
+---
 
-> npm install
+## Lancer l'application
 
-Launch Front-end:
+```bash
+npm start
+```
 
-> npm run start;
+> Accessible sur `http://localhost:4200`
+
+---
+
+## Tests unitaires et d'intégration (Jest)
+
+```bash
+npm test
+```
+
+Avec mode watch :
+
+```bash
+npm run test:watch
+```
+
+### Rapport de couverture
+
+```bash
+npm test -- --coverage
+```
+
+> Rapport disponible dans : `coverage/jest/lcov-report/index.html`
+
+---
+
+## Tests end-to-end (Cypress)
+
+> Le back-end et le front-end doivent être démarrés avant de lancer les tests e2e.
+
+Mode interactif (interface graphique) :
+
+```bash
+npm run cypress:open
+```
+
+Mode headless (ligne de commande) :
+
+```bash
+npm run cypress:run
+```
+
+### Rapport de couverture e2e
+
+Après avoir lancé les tests e2e :
+
+```bash
+npm run e2e:coverage
+```
+
+> Rapport disponible dans : `coverage/lcov-report/index.html`
+
+---
 
 ## Ressources
 
-### Mockoon env
+### Collection Postman
 
-### Postman collection
+Importer la collection depuis :
 
-For Postman import the collection
+> `ressources/postman/yoga.postman_collection.json`
 
-> ressources/postman/yoga.postman_collection.json
+### Compte administrateur par défaut
 
-by following the documentation:
-
-https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman
-
-### MySQL
-
-SQL script for creating the schema is available `ressources/sql/script.sql`
-
-By default the admin account is:
-
-- login: yoga@studio.com
-- password: test!1234
-
-### Test
-
-#### E2E
-
-Launching e2e test:
-
-> npm run e2e
-
-Generate coverage report (you should launch e2e test before):
-
-> npm run e2e:coverage
-
-Report is available here:
-
-> front/coverage/lcov-report/index.html
-
-#### Unitary test
-
-Launching test:
-
-> npm run test
-
-Generate covrage test report
-
-> npm run test -- --coverage
-
-for following change:
-
-> npm run test:watch
+- **login** : yoga@studio.com
+- **password** : test!1234
