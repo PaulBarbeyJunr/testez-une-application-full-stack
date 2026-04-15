@@ -52,7 +52,21 @@ npm test -- --coverage
 
 ## Tests end-to-end (Cypress)
 
-> Le back-end et le front-end doivent être démarrés avant de lancer les tests e2e.
+> Le back-end doit être démarré sur `http://localhost:8080`.
+
+**1. Lancer le front-end avec l'instrumentation de couverture :**
+
+```bash
+ng run yoga:serve-coverage
+```
+
+> Cette commande lance le front avec Istanbul pour collecter les données de couverture.
+
+**2. Lancer les tests Cypress** (dans un autre terminal) :
+
+```bash
+npm run cypress:run
+```
 
 Mode interactif (interface graphique) :
 
@@ -60,15 +74,7 @@ Mode interactif (interface graphique) :
 npm run cypress:open
 ```
 
-Mode headless (ligne de commande) :
-
-```bash
-npm run cypress:run
-```
-
-### Rapport de couverture e2e
-
-Après avoir lancé les tests e2e :
+**3. Générer le rapport de couverture e2e :**
 
 ```bash
 npm run e2e:coverage

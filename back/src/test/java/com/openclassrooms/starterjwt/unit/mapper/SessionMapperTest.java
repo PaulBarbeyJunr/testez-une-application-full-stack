@@ -81,4 +81,84 @@ class SessionMapperTest {
     void testToEntityNull() {
         assertThat(sessionMapper.toEntity((SessionDto) null)).isNull();
     }
+
+    @Test
+    void testToEntity() {
+        SessionDto dto = new SessionDto();
+        dto.setId(1L);
+        dto.setName("Yoga");
+        dto.setDate(new Date());
+        dto.setDescription("desc");
+        dto.setTeacher_id(1L);
+        dto.setUsers(Arrays.asList(1L));
+
+        Session session = sessionMapper.toEntity(dto);
+
+        assertThat(session.getId()).isEqualTo(1L);
+        assertThat(session.getName()).isEqualTo("Yoga");
+        assertThat(session.getDescription()).isEqualTo("desc");
+    }
+
+    @Test
+    void testToEntityWithNullTeacherAndUsers() {
+        SessionDto dto = new SessionDto();
+        dto.setId(2L);
+        dto.setName("Pilates");
+        dto.setDate(new Date());
+        dto.setDescription("desc");
+        dto.setTeacher_id(null);
+        dto.setUsers(null);
+
+        Session session = sessionMapper.toEntity(dto);
+
+        assertThat(session.getId()).isEqualTo(2L);
+        assertThat(session.getTeacher()).isNull();
+        assertThat(session.getUsers()).isEmpty();
+    }
+
+    @Test
+    void testToEntityWithEmptyUsers() {
+        SessionDto dto = new SessionDto();
+        dto.setId(3L);
+        dto.setName("Stretch");
+        dto.setDate(new Date());
+        dto.setDescription("desc");
+        dto.setTeacher_id(null);
+        dto.setUsers(Arrays.asList());
+
+        Session session = sessionMapper.toEntity(dto);
+
+        assertThat(session.getUsers()).isEmpty();
+    }
+
+    @Test
+    void testToEntityList() {
+        SessionDto dto1 = new SessionDto();
+        dto1.setId(1L);
+        dto1.setName("Yoga");
+        dto1.setDate(new Date());
+        dto1.setDescription("d");
+
+        SessionDto dto2 = new SessionDto();
+        dto2.setId(2L);
+        dto2.setName("Pilates");
+        dto2.setDate(new Date());
+        dto2.setDescription("d");
+
+        List<Session> sessions = sessionMapper.toEntity(Arrays.asList(dto1, dto2));
+
+        assertThat(sessions).hasSize(2);
+        assertThat(sessions.get(0).getId()).isEqualTo(1L);
+        assertThat(sessions.get(1).getId()).isEqualTo(2L);
+    }
+
+    @Test
+    void testToEntityListNull() {
+        assertThat(sessionMapper.toEntity((List<SessionDto>) null)).isNull();
+    }
+
+    @Test
+    void testToDtoListNull() {
+        assertThat(sessionMapper.toDto((List<Session>) null)).isNull();
+    }
 }
